@@ -30,12 +30,12 @@ import com.waz.zclient.messages.MessageBottomSheetDialog.MessageAction
 import com.waz.zclient.messages.controllers.MessageActionsController
 import com.waz.zclient.utils.RichView
 import com.waz.zclient.{R, ViewHelper}
+import com.waz.ZLog.ImplicitTag._
 
 class SingleImageViewToolbar(context: Context, attrs: AttributeSet, style: Int) extends LinearLayout(context, attrs, style) with ViewHelper {
   def this(context: Context, attrs: AttributeSet) = this(context, attrs, 0)
   def this(context: Context) = this(context, null, 0)
 
-  import Threading.Implicits.Ui
 
   inflate(R.layout.single_image_view_toolbar_layout)
 
@@ -75,13 +75,13 @@ class SingleImageViewToolbar(context: Context, attrs: AttributeSet, style: Int) 
   Seq(likeButton, downloadButton, shareButton, deleteButton, viewButton)
     .foreach(_.setPressedBackgroundColor(ContextCompat.getColor(getContext, R.color.light_graphite)))
 
-  likeButton.onClick( message.head.foreach(msg => messageActionsController.onMessageAction ! (MessageAction.Like, msg)))
-  downloadButton.onClick( message.head.foreach(msg => messageActionsController.onMessageAction ! (MessageAction.Save, msg)))
-  shareButton.onClick( message.head.foreach(msg => messageActionsController.onMessageAction ! (MessageAction.Forward, msg)))
+  likeButton.onClick( message.currentValue.foreach(msg => messageActionsController.onMessageAction ! (MessageAction.Like, msg)))
+  downloadButton.onClick( message.currentValue.foreach(msg => messageActionsController.onMessageAction ! (MessageAction.Save, msg)))
+  shareButton.onClick( message.currentValue.foreach(msg => messageActionsController.onMessageAction ! (MessageAction.Forward, msg)))
 
-  deleteButton.onClick( message.head.foreach { msg =>
+  deleteButton.onClick( message.currentValue.foreach { msg =>
     messageActionsController.onMessageAction ! (MessageAction.Delete, msg)
   })
 
-  viewButton.onClick(message.head.foreach { msg => messageActionsController.onMessageAction ! (MessageAction.Reveal, msg)})
+  viewButton.onClick(message.currentValue.foreach { msg => messageActionsController.onMessageAction ! (MessageAction.Reveal, msg)})
 }

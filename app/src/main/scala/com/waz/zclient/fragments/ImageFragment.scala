@@ -147,7 +147,7 @@ class ImageFragment extends BaseFragment[ImageFragment.Container] with FragmentH
         if (item.action == MessageAction.Reveal) {
           getFragmentManager.popBackStack()
         }
-        message.head foreach { msg => messageActionsController.onMessageAction ! (item.action, msg) }
+        message.currentValue foreach { msg => messageActionsController.onMessageAction ! (item.action, msg) }
       case _ =>
     }
 
