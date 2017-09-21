@@ -33,7 +33,6 @@ public class LaunchActivity extends BaseActivity implements InitListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getControllerFactory().getLoadTimeLoggerController().appStart();
     }
 
     @Override
@@ -84,7 +83,6 @@ public class LaunchActivity extends BaseActivity implements InitListener {
         } else {
             startSignUp();
         }
-        getControllerFactory().getLoadTimeLoggerController().hideLaunchScreen();
     }
 
     // Navigation //////////////////////////////////////////////////
